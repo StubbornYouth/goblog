@@ -1,0 +1,30 @@
+<!-- 
+    {{ }} 默认的模板界定符。用于在 HTML 模板文件中界定模板语法  模板语法都包含在 {{和}} 中间
+    {{ . }} .表示当前对象(传入模板的数据 在with区块中，指代pipeline的数据) 传入一个结构体对象时，可以使用.来访问结构体对应的字段 例如当前例子map变量 使用.URL .Body 等来获取变量中字段值
+    {{ with pipeline }} T1 {{ end }} 如果pipeline 结果为空则不输出 否则将{{ . }}的值设为 pipeline 并执行T1，但是不改变外部的{{ . }}
+    {{ /* 这是一个注释 */}}
+    $variable := {{ . }}  模板中声明变量
+    {{- .Title -}} 移除空格 {{- 去除模板内容左侧的所有空白符号 -}} 去除模板内容右侧所有空白符号
+    {{if pipeline}} T1 {{end}} 
+    {{if pipeline}} T1 {{else}} T2 
+    {{if pipeline}} T1 {{else if pipeline}} T2 {{else}} T3  条件判断 pipeline是指产生数据的操作
+    {{range pipeline}} T1 {{end}} 循环遍历 pipeline 必须是数组、切片、字典或者通道 如果pipeline 长度为0 不会有任何输出
+    {{range pipeline}} T1 {{else}} T0 {{end}}  如果pipeline 长度为0 输出T0
+
+    除了以上提到的这些语法，比较高级，但不常用的还有：预定义函数 比较函数 自定义函数 模板嵌套
+
+    Go 模板里调用函数语法如下：
+    {{ Function arg... }}
+
+    这里我们调用 Article 的 Link() 方法：
+    {{ $article.Link }}Copy
+
+    假如参数的话，就是：
+    {{ $article.Link  参数1 参数2 }}
+-->
+
+<!-- 
+    Go 标准库的模板分层使用很简单，只要是两个关键词 define 和 template 
+    {{define ... }} 是定义模板，而 {{template ...}} 是使用模板
+    {{define ... }} 跟着的参数是模板的名称，而 {{template ...}} 有两个参数，第一个是模板，第二个是传给模板使用的数据
+-->
