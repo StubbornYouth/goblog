@@ -5,12 +5,13 @@
     <p class="mb-0">摒弃世俗浮躁，追求技术精湛</p>
   </div>
 
-  <div class="p-4 bg-white rounded shadow-sm mb-3">
+    <div class="p-4 bg-white rounded shadow-sm mb-3">
     <h5>分类</h5>
     <ol class="list-unstyled mb-0">
-      <li><a href="#">未分类</a></li>
-      <li><a href="#">模板</a></li>
-      <li><a href="#">数据库</a></li>
+      {{ range $key, $category := .Categories }}
+        <li><a href="{{ $category.Link }}">{{ $category.Name }}</a></li>
+      {{ end }}
+      <li><a href="{{ RouteNameToURL "categories.create" }}">+ 新建分类</a></li>
     </ol>
   </div>
 
@@ -23,12 +24,21 @@
     </ol>
   </div>
 
-  <div class="p-4 bg-white rounded shadow-sm mb-3">
+   <div class="p-4 bg-white rounded shadow-sm mb-3">
     <h5>链接</h5>
     <ol class="list-unstyled">
       <li><a href="#">关于我们</a></li>
-      <li><a href="#">注册</a></li>
-      <li><a href="#">登录</a></li>
+      {{ if .isLogined }}
+        <li><a href="{{ RouteNameToURL "articles.create" }}">开始写作</a></li>
+        <li class="mt-3">
+          <form action="{{ RouteNameToURL "auth.logout" }}" method="POST" onsubmit="return confirm('您确定要退出吗？');">
+            <button class="btn btn-block btn-outline-danger btn-sm" type="submit" name="button">退出</button>
+          </form>
+        </li>
+      {{ else }}
+        <li><a href="{{ RouteNameToURL "auth.register" }}">注册</a></li>
+        <li><a href="{{ RouteNameToURL "auth.login" }}">登录</a></li>
+      {{ end }}
     </ol>
   </div>
 </div>

@@ -7,6 +7,9 @@ import (
 
 	"github.com/StubbornYouth/goblog/app/http/middlewares"
 	"github.com/StubbornYouth/goblog/bootstrap"
+	"github.com/StubbornYouth/goblog/config"
+	c "github.com/StubbornYouth/goblog/pkg/config"
+
 	"github.com/StubbornYouth/goblog/pkg/database"
 
 	// _ "github.com/go-sql-driver/mysql" // 匿名导入 因为这里只是引入数据库引擎 并不使用包里的方法 如果不匿名引用 代码报错不会进行编译
@@ -19,6 +22,11 @@ var router *mux.Router
 
 // 设置包级别数据库 *sql.DB 结构体实例 方便使用
 var db *sql.DB
+
+func init() {
+	// 初始化配置信息
+	config.Initialize()
+}
 
 func main() {
 	database.Initialize()
@@ -34,5 +42,6 @@ func main() {
 	homeUrl, _ := router.Get("home").URL()
 	fmt.Println("homeUrl：", homeUrl)
 
-	http.ListenAndServe(":3000", middlewares.RemoveTrailingSlash(router)) // removeTrailingSlash对路由进行处理
+	// http.ListenAndServe(":3000", middlewares.RemoveTrailingSlash(router)) // removeTrailingSlash对路由进行处理
+	http.ListenAndServe(":"+c.GetString("app.port"), middlewares.RemoveTrailingSlash(router))
 }

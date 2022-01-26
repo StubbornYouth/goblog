@@ -3,6 +3,7 @@ package route
 import (
 	"net/http"
 
+	"github.com/StubbornYouth/goblog/pkg/config"
 	"github.com/gorilla/mux"
 )
 
@@ -31,7 +32,7 @@ func RouteNameToURL(routeName string, pair ...string) string {
 		return ""
 	}
 
-	return url.String()
+	return config.GetString("app.url") + url.String()
 }
 
 // 重构 获取路由参数
